@@ -1,0 +1,32 @@
+package com.huanfran.buildingessentials.graphics.gl.enumeration
+
+import com.huanfran.buildingessentials.graphics.gl.enumeration.identification.GLTarget
+import org.lwjgl.opengl.GL46C
+
+enum class TextureTarget(val id: Int) : GLTarget {
+
+
+    TEXTURE_1D(GL46C.GL_TEXTURE_1D),
+
+    TEXTURE_2D(GL46C.GL_TEXTURE_2D),
+
+    TEXTURE_1D_ARRAY(GL46C.GL_TEXTURE_1D_ARRAY),
+
+    TEXTURE_RECTANGLE(GL46C.GL_TEXTURE_RECTANGLE),
+
+    TEXTURE_CUBE_MAP(GL46C.GL_TEXTURE_CUBE_MAP),
+
+    TEXTURE_3D(GL46C.GL_TEXTURE_3D),
+
+    TEXTURE_2D_ARRAY(GL46C.GL_TEXTURE_2D_ARRAY),
+
+    TEXTURE_CUBE_MAP_ARRAY(GL46C.GL_TEXTURE_CUBE_MAP_ARRAY),
+
+    TEXTURE_BUFFER(GL46C.GL_TEXTURE_BUFFER),
+
+    TEXTURE_2D_MULTISAMPLE(GL46C.GL_TEXTURE_2D_MULTISAMPLE),
+
+    TEXTURE_2D_MULTISAMPLE_ARRAY(GL46C.GL_TEXTURE_2D_MULTISAMPLE_ARRAY);
+
+
+}

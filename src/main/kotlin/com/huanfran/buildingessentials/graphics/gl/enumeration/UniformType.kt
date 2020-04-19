@@ -1,0 +1,89 @@
+package com.huanfran.buildingessentials.graphics.gl.enumeration
+
+import org.lwjgl.opengl.GL46C
+
+enum class UniformType(val id: Int) {
+
+
+    NONE(-1),
+
+
+
+    INT(DataType.INT.id),
+
+    INT_VEC2(GL46C.GL_INT_VEC2),
+
+    INT_VEC3(GL46C.GL_INT_VEC3),
+
+    INT_VEC4(GL46C.GL_INT_VEC4),
+
+
+
+    DOUBLE(DataType.DOUBLE.id),
+
+    DOUBLE_VEC2(GL46C.GL_DOUBLE_VEC2),
+
+    DOUBLE_VEC3(GL46C.GL_DOUBLE_VEC3),
+
+    DOUBLE_VEC4(GL46C.GL_DOUBLE_VEC4),
+
+    DOUBLE_MAT2(GL46C.GL_DOUBLE_MAT2),
+
+    DOUBLE_MAT2X3(GL46C.GL_DOUBLE_MAT2x3),
+
+    DOUBLE_MAT2X4(GL46C.GL_DOUBLE_MAT2x4),
+
+    DOUBLE_MAT3X2(GL46C.GL_DOUBLE_MAT3x2),
+
+    DOUBLE_MAT3(GL46C.GL_DOUBLE_MAT3),
+
+    DOUBLE_MAT3X4(GL46C.GL_DOUBLE_MAT3x4),
+
+    DOUBLE_MAT4X2(GL46C.GL_DOUBLE_MAT4x2),
+
+    DOUBLE_MAT4X3(GL46C.GL_DOUBLE_MAT4x3),
+
+    DOUBLE_MAT4(GL46C.GL_DOUBLE_MAT4),
+
+
+
+    FLOAT(DataType.FLOAT.id),
+
+    FLOAT_VEC2(GL46C.GL_FLOAT_VEC2),
+
+    FLOAT_VEC3(GL46C.GL_FLOAT_VEC3),
+
+    FLOAT_VEC4(GL46C.GL_FLOAT_VEC4),
+
+    FLOAT_MAT2(GL46C.GL_FLOAT_MAT2),
+
+    FLOAT_MAT2X3(GL46C.GL_FLOAT_MAT2x3),
+
+    FLOAT_MAT2X4(GL46C.GL_FLOAT_MAT2x4),
+
+    FLOAT_MAT3X2(GL46C.GL_FLOAT_MAT3x2),
+
+    FLOAT_MAT3(GL46C.GL_FLOAT_MAT3),
+
+    FLOAT_MAT3X4(GL46C.GL_FLOAT_MAT3x4),
+
+    FLOAT_MAT4X2(GL46C.GL_FLOAT_MAT4x2),
+
+    FLOAT_MAT4X3(GL46C.GL_FLOAT_MAT4x3),
+
+    FLOAT_MAT4(GL46C.GL_FLOAT_MAT4);
+
+
+
+    companion object {
+
+        fun fromID(id: Int): UniformType {
+            values().forEach { if (id == it.id) return it }
+
+            return NONE
+        }
+
+    }
+
+
+}

@@ -1,0 +1,8 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "": {
+      "model": "building-essentials:block/mirror_node"
+    }
+  }
+}
