@@ -12,7 +12,7 @@ import java.util.*
 /**
  * Annihilates trees on right click.
  */
-object TreeAnnihilator : BEItem("tree_annihilator") {
+object TreeAnnihilator : BEStaff("tree_annihilator") {
 
 
     override fun onItemUse(context: ItemUseContext): ActionResultType {

@@ -5,13 +5,8 @@ import com.huanfran.buildingessentials.gui.component.VAlignment
 /**
  * A horizontal alignment box for the Building Essentials mod.
  */
-class BEHBox(x: Int, y: Int) : BEBox(x, y) {
+open class BEHBox(x: Int, y: Int) : BEBox(x, y) {
 
-
-    /**
-     * The vertical alignment of the children.
-     */
-    var vAlignment = VAlignment.CENTRE
 
     /**
      * The largest height amongst the children.

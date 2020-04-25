@@ -1,6 +1,8 @@
 package com.huanfran.buildingessentials.gui.component.box
 
 import com.huanfran.buildingessentials.gui.component.BEComponent
+import com.huanfran.buildingessentials.gui.component.HAlignment
+import com.huanfran.buildingessentials.gui.component.VAlignment
 
 abstract class BEBox(x: Int, y: Int) : BEComponent(x, y, 0, 0) {
 
@@ -9,6 +11,16 @@ abstract class BEBox(x: Int, y: Int) : BEComponent(x, y, 0, 0) {
      * The distance between children,
      */
     var spacing = 0
+
+    /**
+     * The vertical alignment of the children.
+     */
+    var vAlignment = VAlignment.TOP
+
+    /**
+     * The horizontal alignment of the children.
+     */
+    var hAlignment = HAlignment.LEFT
 
 
 

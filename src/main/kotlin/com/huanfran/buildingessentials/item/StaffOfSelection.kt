@@ -1,3 +1,3 @@
 package com.huanfran.buildingessentials.item
 
-object StaffOfSelection : BEItem("staff_of_selection")
+object StaffOfSelection : BEStaff("staff_of_selection")

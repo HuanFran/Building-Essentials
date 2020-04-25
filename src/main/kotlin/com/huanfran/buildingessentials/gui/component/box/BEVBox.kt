@@ -9,11 +9,6 @@ class BEVBox(x: Int, y: Int) : BEBox(x, y) {
 
 
     /**
-     * The horizontal alignment of the children.
-     */
-    var hAlignment = HAlignment.CENTRE
-
-    /**
      * The highest width amongst the children.
      */
     var highestWidth = 0
@@ -38,6 +33,12 @@ class BEVBox(x: Int, y: Int) : BEBox(x, y) {
 
         width = highestWidth + padding.l + padding.r
         height = currentY + padding.b
+    }
+
+
+
+    fun test() {
+        updateLargestDimension()
     }
 
 

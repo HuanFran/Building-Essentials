@@ -2,9 +2,6 @@ package com.huanfran.buildingessentials.main
 
 import com.huanfran.buildingessentials.keys.KeyBindings
 import com.huanfran.buildingessentials.networking.BEPacketHandler
-import com.huanfran.buildingessentials.tile.BETileEntityTypes
-import com.huanfran.buildingessentials.tile.mirror.MirrorRenderer
-import net.minecraftforge.fml.client.registry.ClientRegistry
 import net.minecraftforge.fml.common.Mod
 import thedarkcolour.kotlinforforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
@@ -19,50 +16,41 @@ object BuildingEssentials {
 
         KeyBindings.init()
 
-        ClientRegistry.bindTileEntityRenderer(BETileEntityTypes.MIRROR) { MirrorRenderer() }
-
         BEPacketHandler.register()
     }
 
 
 }
 
-//First = FMLCommonSetupEvent
-//Second = FMLClientSetupEvent / FMLDedicatedServerSetupEvent
-//Third = InterModEnqueueEvent
-//Fourth = InterModProcessEvent
+
 
 /*
-/**
- * Parent type to all ModLifecycle events. This is based on Forge EventBus. They fire through the
- * ModContainer's eventbus instance.
- */
-public class ModLifecycleEvent extends Event
-{
-    private final ModContainer container;
+ISSUES:
 
-    public ModLifecycleEvent(ModContainer container)
-    {
-        this.container = container;
-    }
+SOLVED Staff of extension undo doesn't work with mirrors. Undo in general doesn't work with mirrors
+SOLVED Mirror rendering getting mixed with block rendering - graphical issue
+SOLVED Mirrors are only rendered on one side when it is raining.
+SOLVED Tooltips are rendered behind buttons
 
-    public final String description()
-    {
-       String cn = getClass().getName();
-       return cn.substring(cn.lastIndexOf('.')+1);
-    }
+SOLVED Slabs placed on slabs don't work with mirrors.
+SOLVED Orientation is preserved during mirroring - should be flipped
+SOLVED Anything with multiple blocks (e.g. doors) doesn't mirror properly. Only the bottom half gets placed.
 
-    public Stream<InterModComms.IMCMessage> getIMCStream() {
-        return InterModComms.getMessages(this.container.getModId());
-    }
 
-    public Stream<InterModComms.IMCMessage> getIMCStream(Predicate<String> methodFilter) {
-        return InterModComms.getMessages(this.container.getModId(), methodFilter);
-    }
+Mirror transparency is a bit odd when two mirrors intersect. This isn't a big deal but it would be nice to solve
 
-    @Override
-    public String toString() {
-        return description();
-    }
-}
+Global mirrors aren't affected by fog - Not that big of an issue.
+
+Staff of extension causes world lag when used too often. A better way to set blocks?
+
+Mirrors don't work well between opening and closing worlds
+
+Equipping an item should remove the selected feature from the opposite toolbar
+
+Equipping an item should not replace the currently selected item in the normal toolbar.
+
+Mirrors go between worlds - static objects are not good apparently. This may affect quite a few other things.
+
+Placing a slab underneath an upper slab in a mirror will remove the upper slab on the mirrored side.
+
  */

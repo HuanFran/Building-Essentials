@@ -126,11 +126,6 @@ class Vector2(var x: Double,
     infix fun dot(v: Vector2) = x * v.x + y * v.y
 
     /**
-     * Using the dot product across vector dimensions only uses the applicable components.
-     */
-    infix fun dot(v: Vector3) = x * v.x + y * v.y
-
-    /**
      * The cosine of the angle between two vectors. Dot product = |A||B|cos(Theta).
      */
     fun cosAngleBetween(b: Vector2) = dot(b) / (length() * b.length())
@@ -167,7 +162,17 @@ class Vector2(var x: Double,
 
 
 
-    companion object { fun origin() = Vector2(0.0, 0.0) }
+    /*
+    Misc
+     */
+
+
+
+    fun asXZ(y: Double) = Vector3(x, y, this.y)
+
+    fun asXY(z: Double) = Vector3(x, y, z)
+
+    fun asYZ(x: Double) = Vector3(x, this.x, y)
 
 
 

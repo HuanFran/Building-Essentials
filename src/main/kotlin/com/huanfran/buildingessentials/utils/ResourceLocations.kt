@@ -1,7 +1,6 @@
 package com.huanfran.buildingessentials.utils
 
 import com.huanfran.buildingessentials.main.BuildingEssentials
-import net.minecraft.util.ResourceLocation
 
 /**
  * Contains resource locations for various textures used by the [BuildingEssentials] mod.
@@ -31,26 +30,37 @@ object ResourceLocations {
     
     
     
-    val CLEAR_VEGETATION = ResourceLocation("$buttons/clear_vegetation_button.png")
+    val CLEAR_VEGETATION = BETextureLocation("$buttons/clear_vegetation_button.png", 64, 64)
 
-    val CLEAR_WEATHER = ResourceLocation("$buttons/clear_weather_button.png")
+    val CLEAR_WEATHER = BETextureLocation("$buttons/clear_weather_button.png", 64, 64)
 
-    val DAYTIME = ResourceLocation("$buttons/daytime_button.png")
+    val DAYTIME = BETextureLocation("$buttons/daytime_button.png", 64, 64)
 
-    val NIGHTTIME = ResourceLocation("$buttons/nighttime_button.png")
+    val NIGHTTIME = BETextureLocation("$buttons/nighttime_button.png", 64, 64)
 
-    val CLEAR_SNOW = ResourceLocation("$buttons/clear_snow_button.png")
+    val CLEAR_SNOW = BETextureLocation("$buttons/clear_snow_button.png", 64, 64)
 
-    val CHECKBOX = ResourceLocation("$buttons/building-checkbox.png")
+    val CHECKBOX = BETextureLocation("$buttons/building-checkbox.png", 16, 16)
 
-    val CHECKBOX_CHECKED = ResourceLocation("$buttons/building-checkbox-checked.png")
+    val CHECKBOX_CHECKED = BETextureLocation("$buttons/building-checkbox-checked.png", 16, 16)
 
-    val UNDO = ResourceLocation("$buttons/undo_button.png")
+    val UNDO = BETextureLocation("$buttons/undo_button.png", 64, 64)
 
-    val REDO = ResourceLocation("$buttons/redo_button.png")
+    val REDO = BETextureLocation("$buttons/redo_button.png", 64, 64)
+
+    val KILL_MOBS = BETextureLocation("$buttons/no_mobs_button.png", 64, 64)
+
+
+
+    /*
+    Others
+     */
+
+
+
+    val INVENTORY_SLOT = BETextureLocation("$gui/inventory_slot.png", 32, 32)
+
+    val INVENTORY_SLOT_SELECTED = BETextureLocation("$gui/inventory_slot_selected.png", 32, 32)
     
-    
-
-
 
 }

@@ -1,6 +1,8 @@
 package com.huanfran.buildingessentials.tile.mirror
 
+import com.huanfran.buildingessentials.undo.BEActionBuffer
 import net.minecraft.block.BlockState
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IWorld
 import net.minecraft.world.World
@@ -44,10 +46,21 @@ object Mirrors {
      * Called when a block is placed in the [world]. Handles the mirroring of block placement by using either the
      * [clientMirrorHandler] or the [serverMirrorHandler] according to the current logical side.
      */
-    fun checkPlaceBlock(world: IWorld, pos: BlockPos, state: BlockState) = if(world.isRemote)
-        clientMirrorHandler.checkPlaceBlock(world, pos, state)
+    fun checkPlaceBlock(world: IWorld, player: PlayerEntity, pos: BlockPos, state: BlockState) = if(world.isRemote)
+        clientMirrorHandler.checkPlaceBlock(world, player, pos, state)
     else
-        serverMirrorHandler.checkPlaceBlock(world, pos, state)
+        serverMirrorHandler.checkPlaceBlock(world, player, pos, state)
+
+
+
+    /**
+     * Version of [checkPlaceBlock] that takes [BEActionBuffer] in place of [IWorld]. This allows for undo-redo
+     * functionality.
+     */
+    fun checkPlaceBlock(buffer: BEActionBuffer, player: PlayerEntity, pos: BlockPos, state: BlockState) = if(buffer.world.isRemote)
+        clientMirrorHandler.checkPlaceBlock(buffer, player, pos, state)
+    else
+        serverMirrorHandler.checkPlaceBlock(buffer, player, pos, state)
 
 
 
@@ -59,6 +72,17 @@ object Mirrors {
         clientMirrorHandler.checkBreakBlock(world, pos)
     else
         serverMirrorHandler.checkBreakBlock(world, pos)
+
+
+
+    /**
+     * Version of [checkBreakBlock] that takes [BEActionBuffer] in place of [IWorld]. This is used for operations that
+     * can be undone and redone.
+     */
+    fun checkBreakBlock(buffer: BEActionBuffer, pos: BlockPos) = if(buffer.world.isRemote)
+        clientMirrorHandler.checkBreakBlock(buffer, pos)
+    else
+        serverMirrorHandler.checkBreakBlock(buffer, pos)
 
 
 
@@ -89,19 +113,19 @@ object Mirrors {
 
 
     /**
-     * Half the default with for mirrors.
+     * Half the default with for mirrors. Default: 40.
      */
-    var defaultWidth2 = 20.0
+    var defaultWidth2 = 5.0
 
     /**
-     * Half the default length for mirrors.
+     * Half the default length for mirrors. Default: 40.
      */
-    var defaultLength2 = 40.0
+    var defaultLength2 = 5.0
 
     /**
-     * Half the default height for mirrors.
+     * Half the default height for mirrors. Default: 20.
      */
-    var defaultHeight2 = 20.0
+    var defaultHeight2 = 5.0
 
     /**
      * Whether the action of mirrors is enabled or not.
@@ -112,6 +136,11 @@ object Mirrors {
      * Whether the rendering of mirrors is disabled or not.
      */
     var mirrorRenderingEnabled = true
+
+    /**
+     * Whether mirroring block placement can replace existing blocks or not.
+     */
+    var mirrorReplacingEnabled = false
 
 
 }

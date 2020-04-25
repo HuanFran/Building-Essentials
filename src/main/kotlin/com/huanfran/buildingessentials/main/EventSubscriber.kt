@@ -15,14 +15,14 @@ import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraft.tileentity.TileEntityType
 import net.minecraft.util.ResourceLocation
-import net.minecraftforge.client.event.RenderWorldLastEvent
 import net.minecraftforge.event.RegistryEvent.Register
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.registries.IForgeRegistryEntry
 
-
-
+/**
+ * Handles events that are specific to this mod. Mainly, this deals with registries.
+ */
 @Suppress("unused")
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 object EventSubscriber {
@@ -58,7 +58,8 @@ object EventSubscriber {
                 StaffOfExtension,
                 TreeAnnihilator,
                 StaffOfMirrors,
-                StaffOfSelection
+                StaffOfSelection,
+                StaffOfObservation
         )
 
         event.registerAll(
@@ -133,19 +134,6 @@ object EventSubscriber {
 
     private fun Register<Block>.registerAll(vararg items: BEBlock) =
             items.forEach { registry.register(setupBlock(it) ) }
-
-
-
-    /*
-    Rendering
-     */
-
-
-
-    @SubscribeEvent
-    fun onRenderWorldLast(event: RenderWorldLastEvent) {
-
-    }
 
 
 }

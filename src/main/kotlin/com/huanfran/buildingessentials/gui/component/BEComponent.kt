@@ -1,5 +1,7 @@
 package com.huanfran.buildingessentials.gui.component
 
+import com.huanfran.buildingessentials.gui.component.box.GUIDimension
+
 /**
  * No primary constructor as the variables need custom setters.
  */
@@ -22,6 +24,16 @@ abstract class BEComponent {
 
 
 
+    var totalX = x
+        private set
+
+
+
+    var totalY = y
+        private set
+
+
+
     var width: Int = 0
         set(value) { field = value; parent?.onChildRescaled(this) }
 
@@ -32,13 +44,19 @@ abstract class BEComponent {
 
 
 
-    var totalX = x
-        private set
+    /**
+     * The min, pref, and max widths of this component. This is initialised to zero, but should be modified to its
+     * appropriate values before use in a GUI.
+     */
+    var widths = GUIDimension(0)
 
 
 
-    var totalY = y
-        private set
+    /**
+     * The min, pref, and max heights of this component. This is initialised to zero, but should be modified to its
+     * appropriate values before use in a GUI.
+     */
+    var heights = GUIDimension(0)
 
 
 
@@ -52,12 +70,13 @@ abstract class BEComponent {
 
 
     /**
-     * The space between the border and the left-most, right-most, top-most, and bottom-most children.
+     * The minimum distances between this component's borders and any child component's borders.
      */
     var padding = BufferArea(0)
 
+
     /**
-     * The space between the border and adjacent components.
+     * The minimum distances between this component's borders and any adjacent component's borders.
      */
     var margin = BufferArea(0)
 

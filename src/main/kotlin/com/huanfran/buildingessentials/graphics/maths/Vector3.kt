@@ -1,5 +1,8 @@
 package com.huanfran.buildingessentials.graphics.maths
 
+import kotlin.math.round
+import kotlin.math.sqrt
+
 class Vector3(var x: Double,
               var y: Double,
               var z: Double) {
@@ -42,6 +45,7 @@ class Vector3(var x: Double,
     operator fun div(s: Double) = Vector3(x / s, y / s, z / s)
 
 
+
     operator fun unaryMinus() = Vector3(-x, -y, -z)
 
 
@@ -77,23 +81,58 @@ class Vector3(var x: Double,
 
 
     /*
+    Other
+     */
+
+
+
+    fun length() = sqrt(x*x + y*y + z * z)
+
+    fun normalised() : Vector3 = length().let { return Vector3(x / it, y / it, z / it)}
+
+    infix fun dot(v: Vector3) = v.x * x + v.y * y + v.z * z
+
+    infix fun cross(v: Vector3) = Vector3(
+            y*v.z - z*v.y,
+            z*v.x - x*v.z,
+            x*v.y - y*v.x)
+
+    fun round() = Vector3(round(x), round(y), round(z))
+
+
+
+    /*
+    Rotation
+     */
+
+
+
+    fun rotatedXY(radians: Double) = xy.rotated(radians).asXY(z)
+
+    fun rotatedXZ(radians: Double) = xz.rotated(radians).asXZ(y)
+
+    fun rotatedYZ(radians: Double) = yz.rotated(radians).asYZ(x)
+
+
+
+    /*
     MISC.
      */
 
 
 
-    fun toVector2() = Vector2(x, y)
-
-
-    fun toXY() = Vector2(x, y)
-
-
-
-    fun toXZ() = Vector2(x, z)
+    var xy: Vector2 = Vector2(x, y)
+        get() = Vector2(x,y)
 
 
 
-    fun toYZ() = Vector2(y, z)
+    var xz: Vector2 = Vector2(x, z)
+        get() = Vector2(x,z)
+
+
+
+    var yz: Vector2 = Vector2(y, z)
+        get() = Vector2(y,z)
 
 
 

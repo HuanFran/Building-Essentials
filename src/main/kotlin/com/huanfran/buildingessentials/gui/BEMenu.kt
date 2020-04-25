@@ -1,22 +1,21 @@
 package com.huanfran.buildingessentials.gui
 
-import com.huanfran.buildingessentials.gui.component.BEButtonComponent
-import com.huanfran.buildingessentials.gui.component.BEComponent
+import com.huanfran.buildingessentials.gui.button.BEButtonComponent
+import com.huanfran.buildingessentials.gui.button.BECheckBox
+import com.huanfran.buildingessentials.gui.button.BECheckBoxComponent
+import com.huanfran.buildingessentials.gui.button.BEIconButton
 import com.huanfran.buildingessentials.gui.component.box.BEHBox
 import com.huanfran.buildingessentials.gui.component.box.BEVBox
-import com.huanfran.buildingessentials.keys.KeyBindings
 import com.huanfran.buildingessentials.main.player
 import com.huanfran.buildingessentials.main.playerEyePos
 import com.huanfran.buildingessentials.networking.BEPacketHandler
 import com.huanfran.buildingessentials.networking.ClearSurfaceBlocksPacket
 import com.huanfran.buildingessentials.networking.UndoRedoPacket
+import com.huanfran.buildingessentials.tile.mirror.Mirrors
 import com.huanfran.buildingessentials.utils.Commands
 import com.huanfran.buildingessentials.utils.ResourceLocations
-import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.screen.Screen
-import net.minecraft.util.text.StringTextComponent
 
-object BEMenu : Screen(StringTextComponent("Building")) {
+object BEMenu : BEScreen() {
 
 
     /*
@@ -35,86 +34,98 @@ object BEMenu : Screen(StringTextComponent("Building")) {
 
 
 
-    lateinit var left: BEVBox
+    var left: BEVBox
 
-    lateinit var daytimeButton: BEButtonComponent
+    var daytimeButton: BEButtonComponent
 
-    lateinit var nighttimeButton: BEButtonComponent
+    var nighttimeButton: BEButtonComponent
 
-    lateinit var clearWeatherButton: BEButtonComponent
+    var clearWeatherButton: BEButtonComponent
 
-    lateinit var clearVegetationButton: BEButtonComponent
+    var clearVegetationButton: BEButtonComponent
 
-    lateinit var clearSnow: BEButtonComponent
-
-
-    lateinit var undoRedo: BEHBox
-
-    lateinit var redo: BEButtonComponent
-
-    lateinit var undo: BEButtonComponent
+    var clearSnow: BEButtonComponent
 
 
 
-    override fun init() {
-        daytimeButton = BEButtonComponent(BEButton(
-                0,
-                0,
-                buttonWidth,
-                buttonWidth,
-                "Set time to day",
-                ResourceLocations.DAYTIME) { Commands.executeCommand("/time set day") })
+    var undoRedo: BEHBox
 
-        nighttimeButton = BEButtonComponent(BEButton(
-                0,
-                0,
-                buttonWidth,
-                buttonWidth,
-                "Set time to night",
-                ResourceLocations.NIGHTTIME) { Commands.executeCommand("/time set night") })
+    var redo: BEButtonComponent
+
+    var undo: BEButtonComponent
 
 
-        clearWeatherButton = BEButtonComponent(BEButton(
-                0,
-                0,
-                buttonWidth,
-                buttonWidth,
-                "Set weather to clear",
-                ResourceLocations.CLEAR_WEATHER) { Commands.executeCommand("/weather clear") })
+
+    var mirrorConfig: BEVBox
+
+    var mirroringEnabled: BECheckBoxComponent
+
+    var mirrorRenderingEnabled: BECheckBoxComponent
+
+    var mirrorReplacingEnabled: BECheckBoxComponent
+
+    var toolbar: BEToolbarComponent
 
 
-        clearVegetationButton = BEButtonComponent(BEButton(
-                0,
-                0,
-                buttonWidth,
-                buttonWidth,
-                "Clear nearby vegetation",
-                ResourceLocations.CLEAR_VEGETATION) {
-            BEPacketHandler.HANDLER.sendToServer(ClearSurfaceBlocksPacket(1, playerEyePos(player()!!), 20, 10)) })
 
-        clearSnow = BEButtonComponent(BEButton(
-                0,
-                0,
-                buttonWidth,
-                buttonWidth,
-                "Clear nearby snow",
-                ResourceLocations.CLEAR_SNOW) { BEPacketHandler.HANDLER.sendToServer(ClearSurfaceBlocksPacket(2, playerEyePos(player()!!), 20, 10)) })
+    /*
+    Initialisation
+     */
 
-        undo = BEButtonComponent(BEButton(
-                0,
-                0,
-                buttonWidth,
-                buttonWidth,
-                "Undo",
-                ResourceLocations.UNDO) { BEPacketHandler.HANDLER.sendToServer(UndoRedoPacket(true)) })
 
-        redo = BEButtonComponent(BEButton(
-                0,
-                0,
-                buttonWidth,
-                buttonWidth,
-                "Redo",
-                ResourceLocations.REDO) { BEPacketHandler.HANDLER.sendToServer(UndoRedoPacket(false)) })
+
+    init {
+        daytimeButton = BEButtonComponent(BEIconButton("Set time to day", ResourceLocations.DAYTIME)
+        { Commands.executeCommand("/time set day") })
+
+
+
+        nighttimeButton = BEButtonComponent(BEIconButton("Set time to night", ResourceLocations.NIGHTTIME)
+        { Commands.executeCommand("/time set night") })
+
+
+
+        clearWeatherButton = BEButtonComponent(BEIconButton("Set weather to clear", ResourceLocations.CLEAR_WEATHER)
+        { Commands.executeCommand("/weather clear") })
+
+
+
+        clearVegetationButton = BEButtonComponent(BEIconButton("Clear nearby vegetation", ResourceLocations.CLEAR_VEGETATION)
+        { BEPacketHandler.HANDLER.sendToServer(ClearSurfaceBlocksPacket(1, playerEyePos(player()!!), 30, 20)) })
+
+
+
+        clearSnow = BEButtonComponent(BEIconButton("Clear nearby snow", ResourceLocations.CLEAR_SNOW)
+        { BEPacketHandler.HANDLER.sendToServer(ClearSurfaceBlocksPacket(2, playerEyePos(player()!!), 30, 20)) })
+
+
+
+        undo = BEButtonComponent(BEIconButton("Undo", ResourceLocations.UNDO)
+        { BEPacketHandler.HANDLER.sendToServer(UndoRedoPacket(true)) })
+
+
+
+        redo = BEButtonComponent(BEIconButton("Redo", ResourceLocations.REDO)
+        { BEPacketHandler.HANDLER.sendToServer(UndoRedoPacket(false)) })
+
+
+
+        mirroringEnabled = BECheckBoxComponent(BECheckBox(true, "Mirroring enabled")
+        { Mirrors.mirroringEnabled = !Mirrors.mirroringEnabled })
+
+
+
+        mirrorRenderingEnabled = BECheckBoxComponent(BECheckBox(true, "Mirror rendering enabled")
+        { Mirrors.mirrorRenderingEnabled = !Mirrors.mirrorRenderingEnabled} )
+
+
+
+        mirrorReplacingEnabled = BECheckBoxComponent(BECheckBox(false, "Mirrored block replacement enabled")
+        { Mirrors.mirrorReplacingEnabled = !Mirrors.mirrorReplacingEnabled } )
+
+        //toolBar = BEToolbarComponent(width / 2 - (20 * 9) / 2, height - 20 * 2)
+        //toolBar = BEToolbarComponent(0,0)
+        toolbar = BEToolbarComponent(0, 0)
 
         left = BEVBox(20, 20)
         left.spacing = 10
@@ -131,43 +142,36 @@ object BEMenu : Screen(StringTextComponent("Building")) {
         undoRedo.children.add(undo)
         undoRedo.children.add(redo)
 
+        mirrorConfig = BEVBox(80, 20 + 32 + 10)
+        mirrorConfig.spacing = 10
+
+        mirrorConfig.children.add(mirroringEnabled)
+        mirrorConfig.children.add(mirrorRenderingEnabled)
+        mirrorConfig.children.add(mirrorReplacingEnabled)
+    }
+
+
+
+    override fun init() {
         addComponent(left)
         addComponent(undoRedo)
 
+        toolbar.x = width / 2 - (20 * 9) / 2
+        toolbar.y = height - 20 * 2 - 10
 
+        addComponent(toolbar)
+
+        if(Mirrors.activeMirrorCount() != 0) addComponent(mirrorConfig)
     }
 
 
 
-    fun addComponent(c: BEComponent) {
-        if(c is BEButtonComponent)  addButton(c.button)
 
-        c.children.forEach { addComponent(it) }
-    }
-
-
-
-    override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
-        this.renderBackground()
-        super.render(mouseX, mouseY, partialTicks)
-    }
-
-
-
-    override fun keyReleased(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
-        if(keyCode == KeyBindings.OPEN_MENU.key.keyCode)
-            onClose()
+    override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
+        toolbar.handleKeyPress(keyCode)
 
         return false
     }
-
-
-
-    override fun isPauseScreen(): Boolean = false
-
-
-
-    fun swapTo() = Minecraft.getInstance().displayGuiScreen(this)
 
 
 }

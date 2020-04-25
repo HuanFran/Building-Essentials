@@ -7,6 +7,9 @@ import net.minecraft.util.math.Vec3i
 import net.minecraftforge.fml.network.NetworkEvent
 import java.util.function.Supplier
 
+/**
+ * Tells the server to call functions from the [Clearing] class at the player's location.
+ */
 class ClearSurfaceBlocksPacket(val clearType: Int, val playerEyePos: Vec3i, val radius: Int, val depth: Int) {
 
 

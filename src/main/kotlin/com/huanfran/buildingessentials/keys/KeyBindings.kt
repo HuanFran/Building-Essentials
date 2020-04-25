@@ -1,7 +1,7 @@
 package com.huanfran.buildingessentials.keys
 
 import com.huanfran.buildingessentials.main.DISPLAY_NAME
-import com.huanfran.buildingessentials.main.getWindowHandle
+import com.huanfran.buildingessentials.main.windowHandle
 import net.minecraft.client.settings.KeyBinding
 import net.minecraftforge.fml.client.registry.ClientRegistry
 import org.lwjgl.glfw.GLFW
@@ -26,7 +26,7 @@ object KeyBindings {
      */
 
 
-    private fun keyState(keyCode: Int) = GLFW.glfwGetKey(getWindowHandle(), keyCode)
+    private fun keyState(keyCode: Int) = GLFW.glfwGetKey(windowHandle(), keyCode)
 
     fun isKeyPressed(keyCode: Int) = keyState(keyCode) == GLFW.GLFW_PRESS
 
@@ -40,7 +40,7 @@ object KeyBindings {
 
 
 
-    private fun mouseState(mouseCode: Int) = GLFW.glfwGetMouseButton(getWindowHandle(), mouseCode)
+    private fun mouseState(mouseCode: Int) = GLFW.glfwGetMouseButton(windowHandle(), mouseCode)
 
     fun isMousePressed(mouseCode: Int) = mouseState(mouseCode) == GLFW.GLFW_PRESS
 

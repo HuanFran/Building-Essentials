@@ -1,8 +1,8 @@
-package com.huanfran.buildingessentials.gui.component
+package com.huanfran.buildingessentials.gui.button
 
-import com.huanfran.buildingessentials.gui.BEButton
+import com.huanfran.buildingessentials.gui.component.BEComponent
 
-class BEButtonComponent(val button: BEButton) : BEComponent() {
+class BEButtonComponent(val button: BETextlessButton) : BEComponent() {
 
 
     init {

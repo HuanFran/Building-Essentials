@@ -8,6 +8,10 @@ import net.minecraftforge.fml.network.NetworkRegistry
 import net.minecraftforge.fml.network.simple.SimpleChannel
 import java.util.function.Supplier
 
+/**
+ * Handles sending information between the logical client to the logical server. Minecraft's system is confusing to
+ * work with and I don't like it.
+ */
 object BEPacketHandler {
 
 
@@ -16,12 +20,6 @@ object BEPacketHandler {
     private var id = 0
 
 
-
-   /*val HANDLER: SimpleChannel = NetworkRegistry.newSimpleChannel(
-            ResourceLocation(MODID, "main"),
-            { PROTOCOL_VERSION },
-            { it == PROTOCOL_VERSION },
-            { it == PROTOCOL_VERSION })*/
 
     val HANDLER: SimpleChannel = NetworkRegistry.ChannelBuilder
             .named(ResourceLocation(MODID, "main"))
