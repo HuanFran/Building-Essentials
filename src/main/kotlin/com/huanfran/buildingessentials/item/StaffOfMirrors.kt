@@ -1,32 +1,43 @@
 package com.huanfran.buildingessentials.item
 
-import com.huanfran.buildingessentials.block.MirrorBlock
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
+import com.huanfran.buildingessentials.main.rayTraceResult
+import com.huanfran.buildingessentials.main.toVector3
+import com.huanfran.buildingessentials.networking.BEPacketHandler
+import com.huanfran.buildingessentials.networking.MirrorRemovalPacket
+import com.huanfran.buildingessentials.tile.mirror.MirrorController
+import com.huanfran.buildingessentials.tile.mirror.Mirrors
 import net.minecraft.item.ItemUseContext
 import net.minecraft.util.ActionResultType
 
 object StaffOfMirrors : BEStaff("staff_of_mirrors") {
 
 
+    var millisAtLastRemoval = 0L
+    val minimumMillisBetweenRemovals = 200
+
+
+
     override fun onItemUse(context: ItemUseContext): ActionResultType {
-        if(!context.world.isRemote)
-            context.world.setBlockState(context.pos.add(context.face.directionVec), MirrorBlock.defaultState)
+        val player = context.player ?: return ActionResultType.FAIL
+
+        val lookingAt = rayTraceResult(player, 5.0, 0F).hitVec.toVector3()
+
+        Mirrors.handleMirrorNodeCreation(lookingAt.roundToHalf(), context.world.isRemote)
 
         return ActionResultType.SUCCESS
     }
 
 
 
-    override fun onEntitySwing(stack: ItemStack?, entity: LivingEntity?) : Boolean {
-        if(entity == null || entity !is PlayerEntity) return false
+    /**
+     * Client-side only.
+     */
+    fun tryRemove(controller: MirrorController) {
+        if(System.currentTimeMillis() - millisAtLastRemoval < minimumMillisBetweenRemovals) return
 
-        //val lookingAt = Mirrors.serverMirrorHandler.lookingAt(entity.getEyePosition(0F).toVector3(), entity.lookVec.toVector3())
+        BEPacketHandler.HANDLER.sendToServer(MirrorRemovalPacket(controller.v0, controller.v1))
 
-       // log("$lookingAt")
-
-        return false
+        millisAtLastRemoval = System.currentTimeMillis()
     }
 
 

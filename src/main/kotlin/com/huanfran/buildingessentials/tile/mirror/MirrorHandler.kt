@@ -2,6 +2,8 @@ package com.huanfran.buildingessentials.tile.mirror
 
 import com.huanfran.buildingessentials.graphics.maths.Vector3
 import com.huanfran.buildingessentials.main.toVector3
+import com.huanfran.buildingessentials.networking.BEPacketHandler
+import com.huanfran.buildingessentials.networking.MirrorCreationPacket
 import com.huanfran.buildingessentials.undo.BEActionBuffer
 import net.minecraft.block.BlockState
 import net.minecraft.client.Minecraft
@@ -20,10 +22,10 @@ class MirrorHandler {
 
 
     /**
-     * The [BlockPos] where the last mirror node was placed that isn't part of a controller. This is used to create
-     * the [BlockPos] pairs that exist in [MirrorController]s.
+     * The location of the lastly-placed mirror node that isn't part of a controller. This is used to create
+     * the pairs of nodes that exist in and define [MirrorController]s.
      */
-    private var currentPos: BlockPos? = null
+    var currentPos: Vector3? = null
 
     /**
      * All active [MirrorController]s that have been created on the logical side represented by this [MirrorHandler].
@@ -39,23 +41,20 @@ class MirrorHandler {
 
 
     /**
-     * Handles the creation of a mirror block. This assigns controllers where necessary, using the [currentPos] variable
-     * and the [controllers] list.
+     * Client-side only.
      */
-    fun handleMirrorNodeCreation(pos: BlockPos) : MirrorController? =
-        if(currentPos == null) {
-            currentPos = pos
+    fun handleMirrorNodeCreation(pos: Vector3) {
+        if(currentPos == pos) return
 
+        controllers.forEach { if(pos == it.v0 || pos == it.v1) return }
+
+        currentPos?.let { BEPacketHandler.HANDLER.sendToServer(MirrorCreationPacket(it, pos, Mirrors.defaultWidth2, Mirrors.defaultLength2, Mirrors.defaultHeight2)) }
+
+        currentPos = if(currentPos == null)
+            pos
+        else
             null
-        } else {
-            val controller = MirrorController(currentPos!!, pos)
-
-            controllers.add(controller)
-
-            currentPos = null
-
-            controller
-        }
+    }
 
 
 
@@ -98,32 +97,7 @@ class MirrorHandler {
 
 
 
-    /**
-     * Handles the removal of a mirror block from the [world] at the given [pos]. If the node is part of a
-     * [MirrorController], the controller is removed from the [controllers] list and the other node of the controller's
-     * pair is also broken.
-     */
-    fun handleMirrorRemoval(world: IWorld, pos: BlockPos) {
-        //See if the mirror node is part of a controller pair.
-        val controllerToRemove = controllers.firstOrNull {
-            pos == it.pos0 || pos == it.pos1
-        }
-
-        controllerToRemove?.let {
-            controllers.remove(it)
-
-            //Remove the other member of the pair.
-            if(pos == it.pos0)
-                world.removeBlock(it.pos1, false)
-            else
-                world.removeBlock(it.pos0, false)
-        }
-
-        //Reset the current pos if the mirror node at pos was not part of a controller.
-        if(controllerToRemove == null) currentPos = null
-
-        controllers.remove(controllerToRemove)
-    }
+    fun handleMirrorRemoval(v0: Vector3, v1: Vector3) = controllers.removeIf { it.v0 == v0 && it.v1 == v1 }
 
 
 

@@ -20,12 +20,12 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.IWorld
 
 /**
- * The core of mirroring in Building Essentials. Represents a mirror defined by the mirror nodes at [pos0] and [pos1].
+ * The core of mirroring in Building Essentials. Represents a mirror defined by the mirror nodes at [v0] and [v1].
  * The [width2], [length2], and [height2] are the width, length, and height of the mirror's active area divided by
  * two. They are given this way to make the maths a bit simpler.
  */
-class MirrorController(val pos0: BlockPos,
-                       val pos1: BlockPos,
+class MirrorController(val v0: Vector3,
+                       val v1: Vector3,
                        val width2: Double,
                        val length2: Double,
                        val height2: Double) {
@@ -40,14 +40,15 @@ class MirrorController(val pos0: BlockPos,
     /**
      * Constructs this mirror controller with the width, length, and height set to default values.
      */
-    constructor(pos0: BlockPos, pos1: BlockPos) :
-            this(pos0, pos1, Mirrors.defaultWidth2, Mirrors.defaultLength2, Mirrors.defaultHeight2)
+    constructor(v0: Vector3, v1: Vector3) :
+            this(v0, v1, Mirrors.defaultWidth2, Mirrors.defaultLength2, Mirrors.defaultHeight2)
 
 
 
     /*
     Variables
      */
+
 
 
     /**
@@ -79,10 +80,6 @@ class MirrorController(val pos0: BlockPos,
 
 
     init {
-        //Temporary vector3 representations of the block positions.
-        var v0 = pos0.toVector3() + 0.5
-        var v1 = pos1.toVector3() + 0.5
-
         //The centre of the controller, i.e. the average of v0 and v1.
         centre = (v0 + v1) / 2.0
 

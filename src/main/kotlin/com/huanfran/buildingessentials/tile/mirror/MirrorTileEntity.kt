@@ -31,7 +31,7 @@ class MirrorTileEntity : TileEntity(BETileEntityTypes.MIRROR) {
     override fun setWorldAndPos(world: World, pos: BlockPos) {
         super.setWorldAndPos(world, pos)
 
-        controller = Mirrors.handleMirrorCreation(world, pos)
+       // controller = Mirrors.handleMirrorCreation(world, pos)
     }
 
 
@@ -43,7 +43,7 @@ class MirrorTileEntity : TileEntity(BETileEntityTypes.MIRROR) {
     override fun remove() {
         super.remove()
 
-        world?.let { Mirrors.handleMirrorRemoval(it, this.pos) }
+        //world?.let { Mirrors.handleMirrorRemoval(it, this.pos) }
     }
 
 

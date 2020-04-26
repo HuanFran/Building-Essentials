@@ -79,7 +79,7 @@ fun rayTraceResult(range: Double, partialTicks: Float, interactsWithFluids: Bool
         player()?.pick(range, partialTicks, interactsWithFluids) as BlockRayTraceResult
 
 fun rayTraceResult(entity: Entity, range: Double, partialTicks: Float, interactsWithFluids: Boolean = false) =
-        entity.pick(range, partialTicks, interactsWithFluids)
+        entity.pick(range, partialTicks, interactsWithFluids) as BlockRayTraceResult
 
 fun isLogicalServer() = !(world()?.isRemote ?: true)
 

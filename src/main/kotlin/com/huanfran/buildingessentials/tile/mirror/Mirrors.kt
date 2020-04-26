@@ -1,11 +1,11 @@
 package com.huanfran.buildingessentials.tile.mirror
 
+import com.huanfran.buildingessentials.graphics.maths.Vector3
 import com.huanfran.buildingessentials.undo.BEActionBuffer
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IWorld
-import net.minecraft.world.World
 
 /**
  * Contains methods and variables associated with mirroring.
@@ -32,13 +32,19 @@ object Mirrors {
 
 
     /**
-     * Called when a [MirrorTileEntity] is created and its position set. Handles the creation of [MirrorController]s
-     * by using either the [clientMirrorHandler] or the [serverMirrorHandler] according to the current logical side.
+     * Handles the placement of a mirror node at position [v]. Client-side only.
      */
-    fun handleMirrorCreation(world: World, pos: BlockPos) = if(world.isRemote)
-        clientMirrorHandler.handleMirrorNodeCreation(pos)
+    fun handleMirrorNodeCreation(v: Vector3, isRemote: Boolean) = if(isRemote)
+        clientMirrorHandler.handleMirrorNodeCreation(v)
     else
-        serverMirrorHandler.handleMirrorNodeCreation(pos)
+        Unit
+
+
+
+    fun handleMirrorCreation(controller: MirrorController, isRemote: Boolean) = if(isRemote)
+        clientMirrorHandler.controllers.add(controller)
+    else
+        serverMirrorHandler.controllers.add(controller)
 
 
 
@@ -87,14 +93,13 @@ object Mirrors {
 
 
     /**
-     * Called when a [MirrorTileEntity] is removed from the [world]. Handles the removal of any related mirror nodes
-     * and the removal of any associated [MirrorController]s from either the [clientMirrorHandler] or the
-     * [serverMirrorHandler] according to the current logical side.
+     * Removes a [mirrorController] from the controllers list in either the [clientMirrorHandler] or the
+     * [serverMirrorHandler] depending on the logical side specified by [isRemote].
      */
-    fun handleMirrorRemoval(world: IWorld, pos: BlockPos) = if(world.isRemote)
-        clientMirrorHandler.handleMirrorRemoval(world, pos)
+    fun handleMirrorRemoval(mirrorController: MirrorController, isRemote: Boolean) = if(isRemote)
+        clientMirrorHandler.controllers.remove(mirrorController)
     else
-        serverMirrorHandler.handleMirrorRemoval(world, pos)
+        serverMirrorHandler.controllers.remove(mirrorController)
 
 
 
@@ -103,6 +108,21 @@ object Mirrors {
      * [serverMirrorHandler] should have the same number of controllers.
      */
     fun activeMirrorCount() = clientMirrorHandler.controllers.size
+
+
+
+    fun lookingAt(player: PlayerEntity, playerPos: Vector3, isRemote: Boolean) = if(isRemote)
+        clientMirrorHandler.lookingAt(player, playerPos)
+    else
+        serverMirrorHandler.lookingAt(player, playerPos)
+
+
+
+    fun handleMirrorRemoval(v0: Vector3, v1: Vector3, isRemote: Boolean) = if(isRemote)
+        clientMirrorHandler.handleMirrorRemoval(v0, v1)
+    else
+        serverMirrorHandler.handleMirrorRemoval(v0,v1)
+
 
 
 
@@ -115,17 +135,17 @@ object Mirrors {
     /**
      * Half the default with for mirrors. Default: 40.
      */
-    var defaultWidth2 = 5.0
+    var defaultWidth2 = 40.0
 
     /**
      * Half the default length for mirrors. Default: 40.
      */
-    var defaultLength2 = 5.0
+    var defaultLength2 = 40.0
 
     /**
      * Half the default height for mirrors. Default: 20.
      */
-    var defaultHeight2 = 5.0
+    var defaultHeight2 = 20.0
 
     /**
      * Whether the action of mirrors is enabled or not.

@@ -2,19 +2,29 @@ package com.huanfran.buildingessentials.undo
 
 import net.minecraft.block.BlockState
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.world.IWorld
 
-class BEAction(val pos: BlockPos, val previousState: BlockState, val newState: BlockState) {
+/**
+ * Encapsulates the changing of a [BlockState] at [pos] from [previousState] to [newState]. This is used in the
+ * Building Essentials mod for undo and redo operations.
+ */
+class BEAction(val pos: BlockPos, private val previousState: BlockState, private val newState: BlockState) {
 
 
-    fun undo(world: World) {
-        world.setBlockState(pos, previousState)
+    /**
+     * Undoes this action in the given [world].
+     */
+    fun undo(world: IWorld) {
+        world.setBlockState(pos, previousState, 3)
     }
 
 
 
-    fun redo(world: World) {
-        world.setBlockState(pos, newState)
+    /**
+     * Redoes this action in the given [world].
+     */
+    fun redo(world: IWorld) {
+        world.setBlockState(pos, newState, 3)
     }
 
 

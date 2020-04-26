@@ -2,6 +2,7 @@ package com.huanfran.buildingessentials.rendering
 
 import com.huanfran.buildingessentials.graphics.maths.Vector3
 import com.huanfran.buildingessentials.item.StaffOfMirrors
+import com.huanfran.buildingessentials.keys.KeyBindings
 import com.huanfran.buildingessentials.main.toVector3
 import com.huanfran.buildingessentials.tile.mirror.MirrorController
 import com.huanfran.buildingessentials.tile.mirror.Mirrors
@@ -30,8 +31,22 @@ object GlobalMirrorRenderer : Renderer() {
         else
             null
 
-        //Render each mirror. Render it differently if the player is holding the staff of mirrors and is looking at it.
+        lookingAt?.let {
+            if(KeyBindings.isLeftMousePressed())
+                StaffOfMirrors.tryRemove(it)
+        }
+
+        //Render the current node (the one that is not part of a controller, if it exists)
+        Mirrors.clientMirrorHandler.currentPos?.let { renderMirrorNode(stack, it, 1) }
+
+        //Render each mirror.
         Mirrors.clientMirrorHandler.controllers.forEach { renderMirrorGlobally(it, playerPos, stack, lookingAt == it) }
+
+        //Render each mirror's nodes.
+        Mirrors.clientMirrorHandler.controllers.forEach {
+            renderMirrorNode(stack, it.v0, 2)
+            renderMirrorNode(stack, it.v1, 2)
+        }
     }
 
 
@@ -61,8 +76,6 @@ object GlobalMirrorRenderer : Renderer() {
 
         renderCube(builder(), stack.last.matrix, offset, Vector3(0.0, 0.0, 0.0), width2)
         tessellator().draw()
-
-
 
         RenderSystem.enableTexture()
 
@@ -137,7 +150,10 @@ object GlobalMirrorRenderer : Renderer() {
                 builder.pos(matrix, end1.x.toFloat() - offset, height2.toFloat(), end1.z.toFloat() - offset).endVertex()
                 builder.pos(matrix, end1.x.toFloat() - offset, -height2.toFloat(), end1.z.toFloat() - offset).endVertex()
             }
+
         }
+
+
 
         //Final step to rendering.
         tessellator.draw()

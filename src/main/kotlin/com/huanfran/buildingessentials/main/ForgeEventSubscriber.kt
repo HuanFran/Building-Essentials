@@ -2,11 +2,13 @@ package com.huanfran.buildingessentials.main
 
 import com.huanfran.buildingessentials.block.MirrorBlock
 import com.huanfran.buildingessentials.gui.BEMenu
+import com.huanfran.buildingessentials.item.StaffOfMirrors
 import com.huanfran.buildingessentials.item.StaffOfObservation
 import com.huanfran.buildingessentials.rendering.GlobalMirrorRenderer
 import com.huanfran.buildingessentials.rendering.ObservationRenderer
 import com.huanfran.buildingessentials.tile.mirror.Mirrors
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.util.math.RayTraceResult
 import net.minecraftforge.client.event.GuiScreenEvent
 import net.minecraftforge.client.event.RenderWorldLastEvent
 import net.minecraftforge.event.world.BlockEvent
@@ -27,14 +29,7 @@ object ForgeEventSubscriber {
      */
 
 
-    /*
-       /**
-        * Gets the horizontal facing direction of this Entity.
-        */
-       public Direction getHorizontalFacing() {
-          return Direction.fromAngle((double)this.rotationYaw);
-       }
-     */
+
     @SubscribeEvent
     fun onBlockPlaced(event: BlockEvent.EntityPlaceEvent) {
         if(!Mirrors.mirroringEnabled || Mirrors.activeMirrorCount() == 0) return
@@ -85,16 +80,20 @@ object ForgeEventSubscriber {
     fun onRenderWorldLast(event: RenderWorldLastEvent) {
         GlobalMirrorRenderer.renderMirrors(event.matrixStack)
 
-        val lookingAt = rayTraceResult(3.0, event.partialTicks, false)
+        if(heldItem() == StaffOfMirrors) {
+            val lookingAt = rayTraceResult(5.0, event.partialTicks, false)
 
-        //Rounding to the nearest 0.5
-        val h = (lookingAt.hitVec.toVector3() * 2.0).round() / 2.0
+            if(lookingAt.type == RayTraceResult.Type.BLOCK) {
+                //Rounding to the nearest 0.5
+                val h = (lookingAt.hitVec.toVector3() * 2.0).round() / 2.0
 
-        GlobalMirrorRenderer.renderMirrorNode(event.matrixStack, h, 0)
-
+                GlobalMirrorRenderer.renderMirrorNode(event.matrixStack, h, 0)
+            }
+        }
         if(heldItem() == StaffOfObservation)
             ObservationRenderer.render(event.matrixStack, event.partialTicks, StaffOfObservation.pos0, StaffOfObservation.pos1)
     }
+
 
 
 }

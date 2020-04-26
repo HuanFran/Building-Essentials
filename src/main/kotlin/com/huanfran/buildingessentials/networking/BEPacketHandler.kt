@@ -32,6 +32,8 @@ object BEPacketHandler {
     fun register() {
         registerMessage(ClearSurfaceBlocksPacket::class.java, ClearSurfaceBlocksPacket.encoder, ClearSurfaceBlocksPacket.decoder, ClearSurfaceBlocksPacket.handler)
         registerMessage(UndoRedoPacket::class.java, UndoRedoPacket.encoder, UndoRedoPacket.decoder, UndoRedoPacket.handler)
+        registerMessage(MirrorCreationPacket::class.java, MirrorCreationPacket.encoder, MirrorCreationPacket.decoder, MirrorCreationPacket.handler)
+        registerMessage(MirrorRemovalPacket::class.java, MirrorRemovalPacket.encoder, MirrorRemovalPacket.decoder, MirrorRemovalPacket.handler)
     }
 
 

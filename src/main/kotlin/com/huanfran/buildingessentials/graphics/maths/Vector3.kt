@@ -99,6 +99,8 @@ class Vector3(var x: Double,
 
     fun round() = Vector3(round(x), round(y), round(z))
 
+    fun roundToHalf() = (this * 2.0).round() / 2.0
+
 
 
     /*
@@ -137,6 +139,10 @@ class Vector3(var x: Double,
 
 
     override fun toString() = "($x, $y, $z)"
+
+
+
+    override fun equals(other: Any?) = other is Vector3 && other.x == x && other.y == y && other.z == z
 
 
 }
