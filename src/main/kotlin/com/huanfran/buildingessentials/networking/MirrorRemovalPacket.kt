@@ -1,7 +1,7 @@
 package com.huanfran.buildingessentials.networking
 
 import com.huanfran.buildingessentials.graphics.maths.Vector3
-import com.huanfran.buildingessentials.tile.mirror.Mirrors
+import com.huanfran.mirror.Mirrors
 import net.minecraft.network.PacketBuffer
 import net.minecraftforge.fml.network.NetworkDirection
 import net.minecraftforge.fml.network.NetworkEvent

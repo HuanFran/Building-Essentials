@@ -1,7 +1,7 @@
 package com.huanfran.buildingessentials.item
 
-import com.huanfran.buildingessentials.tile.mirror.Mirrors
 import com.huanfran.buildingessentials.undo.BEActionBuffer
+import com.huanfran.mirror.Mirrors
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemUseContext
 import net.minecraft.util.ActionResultType

@@ -41,12 +41,12 @@ object ObservationRenderer : Renderer() {
         beginQuads()
 
         //Always render the zero block, which is either lookingAt or pos0.
-        renderPos(builder(), matrix, offset, BlockPos(0,0,0))
+       // renderPos(builder, matrix, offset, BlockPos(0,0,0))
 
         //Render pos1 if it is not null.
-        pos1?.let { renderPos(builder(), matrix, offset, it.subtract(pos0!!)) }
+       // pos1?.let { renderPos(builder, matrix, offset, it.subtract(pos0!!)) }
         //if(pos0 != null && pos1 == null) renderPos0ToLookingAt(matrix, pos0, lookingAt)
-        tessellator().draw()
+        tessellator.draw()
 
         //Restore the initial state.
         RenderSystem.enableTexture()
@@ -64,9 +64,9 @@ object ObservationRenderer : Renderer() {
 
         val dif = end - start
 
-        builder().let {
-            it.pos(matrix, BlockPos.ZERO.toVector3())
-            it.pos(matrix, dif)
+        builder.let {
+            //it.pos(matrix, BlockPos.ZERO.toVector3())
+            //it.pos(matrix, dif)
         }
     }
 

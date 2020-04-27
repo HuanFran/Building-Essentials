@@ -1,4 +1,4 @@
-package com.huanfran.buildingessentials.tile.mirror
+package com.huanfran.mirror
 
 import com.huanfran.buildingessentials.graphics.maths.Vector3
 import com.huanfran.buildingessentials.main.toVector3

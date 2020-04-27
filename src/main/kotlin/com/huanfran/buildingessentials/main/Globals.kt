@@ -2,6 +2,7 @@ package com.huanfran.buildingessentials.main
 
 import com.huanfran.buildingessentials.graphics.maths.Vector3
 import com.huanfran.buildingessentials.item.StaffOfExtension
+import com.huanfran.buildingessentials.utils.player
 import net.minecraft.client.Minecraft
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
@@ -57,23 +58,11 @@ fun windowHandle() = Minecraft.getInstance().mainWindow.handle
 
 fun currentScreen() = Minecraft.getInstance().currentScreen
 
-fun minecraft() = Minecraft.getInstance()!!
-
-fun player() = minecraft().player
+fun minecraft(): Minecraft = Minecraft.getInstance()
 
 fun integratedServer() = minecraft().integratedServer!!
 
 fun world() = minecraft().world
-
-fun inventory() = player()?.inventory
-
-fun heldItem() = player()?.heldItemMainhand?.item!!
-
-fun toolbarIndex() = inventory()?.currentItem
-
-fun doClientSided(action: () -> Unit) = world()?.let { if(it.isRemote) action() }
-
-fun doServerSided(action: () -> Unit) = world()?.let { if(!it.isRemote) action() }
 
 fun rayTraceResult(range: Double, partialTicks: Float, interactsWithFluids: Boolean = false) =
         player()?.pick(range, partialTicks, interactsWithFluids) as BlockRayTraceResult

@@ -53,4 +53,5 @@ Mirrors go between worlds - static objects are not good apparently. This may aff
 
 Placing a slab underneath an upper slab in a mirror will remove the upper slab on the mirrored side.
 
+STATIC VARIABLES ARE NOT GOOD: THEY DON'T WORK BETWEEN WORLDS.
  */

@@ -4,16 +4,12 @@ import com.huanfran.buildingessentials.main.rayTraceResult
 import com.huanfran.buildingessentials.main.toVector3
 import com.huanfran.buildingessentials.networking.BEPacketHandler
 import com.huanfran.buildingessentials.networking.MirrorRemovalPacket
-import com.huanfran.buildingessentials.tile.mirror.MirrorController
-import com.huanfran.buildingessentials.tile.mirror.Mirrors
+import com.huanfran.mirror.MirrorController
+import com.huanfran.mirror.Mirrors
 import net.minecraft.item.ItemUseContext
 import net.minecraft.util.ActionResultType
 
 object StaffOfMirrors : BEStaff("staff_of_mirrors") {
-
-
-    var millisAtLastRemoval = 0L
-    val minimumMillisBetweenRemovals = 200
 
 
 
@@ -24,13 +20,33 @@ object StaffOfMirrors : BEStaff("staff_of_mirrors") {
 
         Mirrors.handleMirrorNodeCreation(lookingAt.roundToHalf(), context.world.isRemote)
 
+        millisAtLastPlacement = System.currentTimeMillis()
+
         return ActionResultType.SUCCESS
     }
 
 
 
     /**
-     * Client-side only.
+     * Milliseconds since a mirror was last removed in the world.
+     */
+    var millisAtLastRemoval = 0L
+
+    /**
+     * Milliseconds since a mirror node was last placed into the world.
+     */
+    var millisAtLastPlacement = 0L
+
+    /**
+     * Minimum time between mirrors being removed with a left click. This is to prevent multiple mirrors from being
+     * removed in a very short time span when left clicking.
+     */
+    val minimumMillisBetweenRemovals = 200
+
+
+
+    /**
+     * Client-side only. Tries to remove the given controller from the world.
      */
     fun tryRemove(controller: MirrorController) {
         if(System.currentTimeMillis() - millisAtLastRemoval < minimumMillisBetweenRemovals) return
