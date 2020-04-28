@@ -3,15 +3,20 @@ package com.huanfran.buildingessentials.rendering
 import com.huanfran.buildingessentials.graphics.maths.Vector3
 import com.huanfran.buildingessentials.item.StaffOfMirrors
 import com.huanfran.buildingessentials.keys.KeyBindings
-import com.huanfran.buildingessentials.main.rayTraceResult
-import com.huanfran.buildingessentials.main.toVector3
-import com.huanfran.buildingessentials.utils.heldItem
+import com.huanfran.buildingessentials.utils.extensions.rayTrace
+import com.huanfran.buildingessentials.utils.extensions.toVector3
+import com.huanfran.buildingessentials.utils.internal.heldItem
+import com.huanfran.buildingessentials.utils.internal.player
 import com.huanfran.mirror.MirrorController
 import com.huanfran.mirror.Mirrors
 import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.util.math.RayTraceResult
 
+/**
+ * Renders [MirrorController]s globally. Rendering is not confined to tile entities, so the render can be viewed by
+ * any player anywhere.
+ */
 object GlobalMirrorRenderer : Renderer() {
 
 
@@ -20,11 +25,12 @@ object GlobalMirrorRenderer : Renderer() {
 
         //The mirror that the player is looking at (null if they are not looking at a mirror).
         val lookingAt = if(heldItem().item == StaffOfMirrors)
-            Mirrors.clientMirrorHandler.lookingAt(player, playerPos())
+            Mirrors.clientMirrorHandler.lookingAt(player(), playerPos())
         else
             null
 
-        if(heldItem().item == StaffOfMirrors && System.currentTimeMillis() - StaffOfMirrors.millisAtLastPlacement > 100)
+        //Render a mirror node where the player is looking.
+        if(heldItem().item == StaffOfMirrors)
             renderPlacementNode(stack, partialTicks)
 
         //Logic to remove a mirror with left click while holding the staff of mirrors.
@@ -48,12 +54,8 @@ object GlobalMirrorRenderer : Renderer() {
 
 
 
-    private fun renderPlacementNode(stack: MatrixStack, partialTicks: Float) {
-        val lookingAt = rayTraceResult(5.0, partialTicks, false)
-
-        if(lookingAt.type == RayTraceResult.Type.BLOCK) {
-            renderMirrorNode(stack, lookingAt.hitVec.toVector3().roundToHalf(), 0)
-        }
+    private fun renderPlacementNode(stack: MatrixStack, partialTicks: Float) = player().rayTrace(5.0, partialTicks).let {
+        if(it.type == RayTraceResult.Type.BLOCK) renderMirrorNode(stack, it.hitVec.toVector3().roundToHalf(), 0)
     }
 
 

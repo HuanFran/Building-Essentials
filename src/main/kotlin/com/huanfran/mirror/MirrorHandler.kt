@@ -1,10 +1,10 @@
 package com.huanfran.mirror
 
 import com.huanfran.buildingessentials.graphics.maths.Vector3
-import com.huanfran.buildingessentials.main.toVector3
 import com.huanfran.buildingessentials.networking.BEPacketHandler
 import com.huanfran.buildingessentials.networking.MirrorCreationPacket
 import com.huanfran.buildingessentials.undo.BEActionBuffer
+import com.huanfran.buildingessentials.utils.extensions.toVector3
 import net.minecraft.block.BlockState
 import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.PlayerEntity
@@ -16,9 +16,11 @@ import net.minecraft.world.IWorld
 /**
  * Handles [MirrorController]s created on a logical side, either the logical client or the logical server. There are
  * only ever two instances of this class, both found in the [Mirrors] object. This class is necessary as the action
- * must be split between the two logical sides to avoid concurrency errors.
+ * must be split between the two logical sides to avoid concurrency errors. The [controllers] list can be given if this
+ * handler represents a world that has already been created. If not, the list can be left blank. It represents all
+ * active [MirrorController]s that have been created in a world.
  */
-class MirrorHandler {
+class MirrorHandler(val controllers: ArrayList<MirrorController> = ArrayList()) {
 
 
     /**
@@ -26,11 +28,6 @@ class MirrorHandler {
      * the pairs of nodes that exist in and define [MirrorController]s.
      */
     var currentPos: Vector3? = null
-
-    /**
-     * All active [MirrorController]s that have been created on the logical side represented by this [MirrorHandler].
-     */
-    val controllers = ArrayList<MirrorController>()
 
     /**
      * A list of all mirrored block placements that have taken place during the current place event. This is used to

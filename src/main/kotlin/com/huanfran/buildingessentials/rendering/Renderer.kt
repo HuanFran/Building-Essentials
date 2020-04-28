@@ -1,8 +1,8 @@
 package com.huanfran.buildingessentials.rendering
 
 import com.huanfran.buildingessentials.graphics.maths.Vector3
-import com.huanfran.buildingessentials.main.toVector3
-import com.huanfran.buildingessentials.utils.player
+import com.huanfran.buildingessentials.utils.extensions.toVector3
+import com.huanfran.buildingessentials.utils.internal.player
 import com.mojang.blaze3d.matrix.MatrixStack
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
@@ -25,9 +25,6 @@ abstract class Renderer {
     val tessellator = Tessellator.getInstance()
 
     val builder = tessellator.buffer
-
-    var player = player()
-        get() = player()
 
 
 
@@ -146,10 +143,10 @@ abstract class Renderer {
 
     fun playerPos() = Minecraft.getInstance().gameRenderer.activeRenderInfo.projectedView.toVector3()
 
-    fun lookVector() = player.lookVec.toVector3()
+    fun lookVector() = player().lookVec.toVector3()
 
     fun rayTrace(range: Double, partialTicks: Float = 0F, interactsWithFluids: Boolean = false) =
-            player.pick(range, partialTicks, interactsWithFluids) as BlockRayTraceResult
+            player().pick(range, partialTicks, interactsWithFluids) as BlockRayTraceResult
 
 
 

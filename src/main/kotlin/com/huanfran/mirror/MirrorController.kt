@@ -4,8 +4,11 @@ import com.huanfran.buildingessentials.graphics.maths.Maths
 import com.huanfran.buildingessentials.graphics.maths.Plane
 import com.huanfran.buildingessentials.graphics.maths.Vector2
 import com.huanfran.buildingessentials.graphics.maths.Vector3
-import com.huanfran.buildingessentials.main.*
 import com.huanfran.buildingessentials.undo.BEActionBuffer
+import com.huanfran.buildingessentials.utils.Maths.directionFromYaw
+import com.huanfran.buildingessentials.utils.extensions.toBlockPos
+import com.huanfran.buildingessentials.utils.extensions.toVec3d
+import com.huanfran.buildingessentials.utils.extensions.toVector3
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalBlock
 import net.minecraft.block.SlabBlock
@@ -198,7 +201,7 @@ class MirrorController(val v0: Vector3,
 
         //Prevent (or allow, based on configuration) mirrored blocks from destroying already-present blocks. Slabs are
         //a special case as placing a top-slab requries a bottom-slab to be present.
-        if(!Mirrors.mirrorReplacingEnabled && !isReplacable(buffer.world, mirroredPos)
+        if(!Mirrors.mirrorReplacingEnabled && !isReplaceable(buffer.world, mirroredPos)
                 && mirroredState.block !is SlabBlock && state.block !is SlabBlock) return
 
         //The hitVec must be mirrored as it provides directional details.
@@ -261,6 +264,14 @@ class MirrorController(val v0: Vector3,
             handler.controllers.forEach { c -> if (c != this) c.checkBreakBlock(buffer, opposite, handler, iteration + 1) }
         }
     }
+
+
+
+    /**
+     * Checks if the block at [pos] in the given [world] is replaceable by a mirror. That is, if it is an air block or
+     * a fluid source.
+     */
+    private fun isReplaceable(world: IWorld, pos: BlockPos) = world.isAirBlock(pos) || world.getBlockState(pos).fluidState.isSource
 
 
 }

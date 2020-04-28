@@ -1,19 +1,10 @@
 package com.huanfran.buildingessentials.rendering
 
-import com.huanfran.buildingessentials.item.StaffOfObservation
-import com.huanfran.buildingessentials.main.rayTraceResult
-import com.huanfran.buildingessentials.main.toVector3
-import com.mojang.blaze3d.matrix.MatrixStack
-import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.Matrix4f
-import net.minecraft.util.math.BlockPos
-
 object ObservationRenderer : Renderer() {
 
 
 
-    fun render(stack: MatrixStack, partialTicks: Float, pos0: BlockPos?, pos1: BlockPos?) {
+    /*fun render(stack: MatrixStack, partialTicks: Float, pos0: BlockPos?, pos1: BlockPos?) {
         stack.push()
 
         //Calculate the player's position and where the player is looking.
@@ -68,7 +59,7 @@ object ObservationRenderer : Renderer() {
             //it.pos(matrix, BlockPos.ZERO.toVector3())
             //it.pos(matrix, dif)
         }
-    }
+    }*/
 
 
 

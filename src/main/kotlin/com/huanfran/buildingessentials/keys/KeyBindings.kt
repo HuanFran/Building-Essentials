@@ -1,7 +1,7 @@
 package com.huanfran.buildingessentials.keys
 
 import com.huanfran.buildingessentials.main.DISPLAY_NAME
-import com.huanfran.buildingessentials.main.windowHandle
+import com.huanfran.buildingessentials.utils.internal.windowHandle
 import net.minecraft.client.settings.KeyBinding
 import net.minecraftforge.fml.client.registry.ClientRegistry
 import org.lwjgl.glfw.GLFW

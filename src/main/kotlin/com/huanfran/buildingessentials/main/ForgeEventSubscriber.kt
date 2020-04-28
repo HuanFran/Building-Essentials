@@ -87,16 +87,16 @@ object ForgeEventSubscriber {
 
 
 
+    @SubscribeEvent
+    fun onSave(event: WorldEvent.Save) {
 
-    /*
-    World
-     */
+    }
 
 
 
     @SubscribeEvent
     fun test(event: WorldEvent.Load) {
-
+        event.world.worldInfo.worldName
     }
 
 

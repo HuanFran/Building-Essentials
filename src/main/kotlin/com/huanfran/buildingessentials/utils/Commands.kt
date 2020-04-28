@@ -1,8 +1,12 @@
 package com.huanfran.buildingessentials.utils
 
-import com.huanfran.buildingessentials.main.integratedServer
+import com.huanfran.buildingessentials.utils.internal.integratedServer
+import com.huanfran.buildingessentials.utils.internal.player
 import net.minecraft.command.CommandSource
 
+/**
+ * Contains some convenience functions for running commands.
+ */
 object Commands {
 
 
@@ -16,10 +20,6 @@ object Commands {
 
 
     fun executeCommand(command: String) = executeCommand(integratedServer().commandSource, command)
-
-
-
-    fun executePlayerCommand(command: String) = executeCommand(player().commandSource, command)
 
 
 }

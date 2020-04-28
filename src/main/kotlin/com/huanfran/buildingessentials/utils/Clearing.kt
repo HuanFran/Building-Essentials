@@ -1,6 +1,5 @@
 package com.huanfran.buildingessentials.utils
 
-import com.huanfran.buildingessentials.main.pluralChecked
 import com.huanfran.buildingessentials.undo.BEActionBuffer
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
@@ -9,6 +8,9 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.World
 
+/**
+ * Contains some functions that clear blocks from the world.
+ */
 object Clearing {
 
 
@@ -69,7 +71,7 @@ object Clearing {
      */
     fun clearVegetation(world: World?, playerEyePos: Vec3i, radius: Int, depth: Int) =
         clearSurfaceBlocks(world!!, playerEyePos, radius, depth, true) { b -> b is BushBlock }.let {
-            Commands.writeToChat(number(it) + " of vegetation cleared within a square of width " + radius * 2)
+            Commands.writeToChat("Vegetation cleared. Count: $it")
         }
 
 
@@ -79,16 +81,8 @@ object Clearing {
      */
     fun clearSnow(world: World?, playerEyePos: Vec3i, radius: Int, depth: Int) =
         clearSurfaceBlocks(world!!, playerEyePos, radius, depth, false) { b -> b == Blocks.SNOW }.let {
-            Commands.writeToChat(number(it) + " of snow cleared within a square of width " + radius * 2)
+            Commands.writeToChat("Snow cleared. Count: $it")
         }
-
-
-
-    /**
-     * Pluralises the word 'piece' according to the given [count]. Utility function for the methods in this class that
-     * clear 'pieces' of vegetation.
-     */
-    private fun number(count: Int): String = pluralChecked(count, "piece", "pieces")
 
 
 }

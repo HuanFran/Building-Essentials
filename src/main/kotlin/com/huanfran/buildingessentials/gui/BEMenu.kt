@@ -6,13 +6,13 @@ import com.huanfran.buildingessentials.gui.button.BECheckBoxComponent
 import com.huanfran.buildingessentials.gui.button.BEIconButton
 import com.huanfran.buildingessentials.gui.component.box.BEHBox
 import com.huanfran.buildingessentials.gui.component.box.BEVBox
-import com.huanfran.buildingessentials.main.playerEyePos
 import com.huanfran.buildingessentials.networking.BEPacketHandler
 import com.huanfran.buildingessentials.networking.ClearSurfaceBlocksPacket
 import com.huanfran.buildingessentials.networking.UndoRedoPacket
 import com.huanfran.buildingessentials.utils.Commands
 import com.huanfran.buildingessentials.utils.ResourceLocations
-import com.huanfran.buildingessentials.utils.player
+import com.huanfran.buildingessentials.utils.extensions.toBlockPos
+import com.huanfran.buildingessentials.utils.internal.playerEyePos
 import com.huanfran.mirror.Mirrors
 
 object BEMenu : BEScreen() {
@@ -91,12 +91,12 @@ object BEMenu : BEScreen() {
 
 
         clearVegetationButton = BEButtonComponent(BEIconButton("Clear nearby vegetation", ResourceLocations.CLEAR_VEGETATION)
-        { BEPacketHandler.HANDLER.sendToServer(ClearSurfaceBlocksPacket(1, playerEyePos(player()), 30, 20)) })
+        { BEPacketHandler.HANDLER.sendToServer(ClearSurfaceBlocksPacket(1, playerEyePos().toBlockPos(), 30, 20)) })
 
 
 
         clearSnow = BEButtonComponent(BEIconButton("Clear nearby snow", ResourceLocations.CLEAR_SNOW)
-        { BEPacketHandler.HANDLER.sendToServer(ClearSurfaceBlocksPacket(2, playerEyePos(player()), 30, 20)) })
+        { BEPacketHandler.HANDLER.sendToServer(ClearSurfaceBlocksPacket(2, playerEyePos().toBlockPos(), 30, 20)) })
 
 
 

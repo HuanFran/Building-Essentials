@@ -4,8 +4,8 @@ import com.huanfran.buildingessentials.gui.button.BEButtonComponent
 import com.huanfran.buildingessentials.gui.button.BECheckBoxComponent
 import com.huanfran.buildingessentials.gui.component.BEComponent
 import com.huanfran.buildingessentials.keys.KeyBindings
-import com.huanfran.buildingessentials.main.currentScreen
-import com.huanfran.buildingessentials.main.minecraft
+import com.huanfran.buildingessentials.utils.internal.currentScreen
+import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.util.text.StringTextComponent
 
@@ -62,7 +62,7 @@ abstract class BEScreen : Screen(StringTextComponent("")) {
 
 
 
-    fun swapTo() = minecraft().displayGuiScreen(this)
+    fun swapTo() = Minecraft.getInstance().displayGuiScreen(this)
 
 
 

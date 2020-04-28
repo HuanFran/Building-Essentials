@@ -19,6 +19,16 @@ object Mirrors {
 
 
 
+    /*println("I am testing this keyboard. The keys are too high. That's my complaint. I liked my old keyboard" +
+            "better but they don't sell that one anymore. It was getting worn down. The keys wouldn't press" +
+            "properly. At least I can still type quite well with this keyboard, even if it is a bit less " +
+            "comfortable. In fact, it may force me to improve my typing posture. I now have to 'hover' my hands" +
+            "above the keyboard as there is no hand rest. I think that this is better typing posture. I have" +
+            "no idea. I can type well regardless of the keyboard. This keyboard is very smooth. The keys are very" +
+            "soft and don't make much noise. I like this keyboard, even if the keys are quite tall and stick out.")*/
+
+
+
     /**
      * Handles all [MirrorController]s that have been created on the logical client side.
      */
@@ -29,6 +39,27 @@ object Mirrors {
      */
     val serverMirrorHandler = MirrorHandler()
 
+    /**
+     * Maps dimensions (by their name) with a [MirrorHandler] on the client-side.
+     */
+    val clientHandlers = HashMap<String, MirrorHandler>()
+
+    /**
+     * Maps dimensions (by their name) with a [MirrorHandler] on the server-side.
+     */
+    val serverHandlers = HashMap<String, MirrorHandler>()
+
+
+
+    fun getHandler(world: IWorld) : MirrorHandler? = world.dimension.type.registryName?.let {
+        if(world.isRemote)
+            clientHandlers[it.namespace]
+        else
+            serverHandlers[it.namespace]
+    }
+
+    fun checkPlaceBlock2(world: IWorld, player: PlayerEntity, pos: BlockPos, state: BlockState) =
+            getHandler(world)?.checkPlaceBlock(world, player, pos, state)
 
 
     /**

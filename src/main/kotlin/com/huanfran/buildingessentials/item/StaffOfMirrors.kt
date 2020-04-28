@@ -1,9 +1,9 @@
 package com.huanfran.buildingessentials.item
 
-import com.huanfran.buildingessentials.main.rayTraceResult
-import com.huanfran.buildingessentials.main.toVector3
 import com.huanfran.buildingessentials.networking.BEPacketHandler
 import com.huanfran.buildingessentials.networking.MirrorRemovalPacket
+import com.huanfran.buildingessentials.utils.extensions.rayTrace
+import com.huanfran.buildingessentials.utils.extensions.toVector3
 import com.huanfran.mirror.MirrorController
 import com.huanfran.mirror.Mirrors
 import net.minecraft.item.ItemUseContext
@@ -14,13 +14,13 @@ object StaffOfMirrors : BEStaff("staff_of_mirrors") {
 
 
     override fun onItemUse(context: ItemUseContext): ActionResultType {
-        val player = context.player ?: return ActionResultType.FAIL
+        if(context.world.isRemote) {
+            val player = context.player ?: return ActionResultType.FAIL
 
-        val lookingAt = rayTraceResult(player, 5.0, 0F).hitVec.toVector3()
+            val lookingAt = player.rayTrace(5.0, 0F).hitVec.toVector3()
 
-        Mirrors.handleMirrorNodeCreation(lookingAt.roundToHalf(), context.world.isRemote)
-
-        millisAtLastPlacement = System.currentTimeMillis()
+            Mirrors.handleMirrorNodeCreation(lookingAt.roundToHalf(), context.world.isRemote)
+        }
 
         return ActionResultType.SUCCESS
     }
@@ -31,11 +31,6 @@ object StaffOfMirrors : BEStaff("staff_of_mirrors") {
      * Milliseconds since a mirror was last removed in the world.
      */
     var millisAtLastRemoval = 0L
-
-    /**
-     * Milliseconds since a mirror node was last placed into the world.
-     */
-    var millisAtLastPlacement = 0L
 
     /**
      * Minimum time between mirrors being removed with a left click. This is to prevent multiple mirrors from being
