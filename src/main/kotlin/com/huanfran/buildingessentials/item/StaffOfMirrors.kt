@@ -19,7 +19,7 @@ object StaffOfMirrors : BEStaff("staff_of_mirrors") {
 
             val lookingAt = player.rayTrace(5.0, 0F).hitVec.toVector3()
 
-            Mirrors.handleMirrorNodeCreation(lookingAt.roundToHalf(), context.world.isRemote)
+            Mirrors.handleMirrorNodeCreation(context.world, lookingAt.roundToHalf())
         }
 
         return ActionResultType.SUCCESS
@@ -36,8 +36,7 @@ object StaffOfMirrors : BEStaff("staff_of_mirrors") {
      * Minimum time between mirrors being removed with a left click. This is to prevent multiple mirrors from being
      * removed in a very short time span when left clicking.
      */
-    val minimumMillisBetweenRemovals = 200
-
+    private const val minimumMillisBetweenRemovals = 200
 
 
     /**

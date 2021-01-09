@@ -12,7 +12,7 @@ object EventKeyInput {
 
 
     @SubscribeEvent
-    fun handlEventInput(event: TickEvent.ClientTickEvent) {
+    fun handleEventInput(event: TickEvent.ClientTickEvent) {
         if(KeyBindings.OPEN_MENU.isKeyDown) BEMenu.swapTo()
     }
 

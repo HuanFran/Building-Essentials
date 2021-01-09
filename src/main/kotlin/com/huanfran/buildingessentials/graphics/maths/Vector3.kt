@@ -8,6 +8,10 @@ class Vector3(var x: Double,
               var z: Double) {
 
 
+
+    constructor() : this(0.0, 0.0, 0.0)
+
+
     /*
     BASIC OPERATOR ARITHMETIC.
      */

@@ -4,6 +4,7 @@ import com.huanfran.buildingessentials.item.BEItemGroup
 import com.huanfran.buildingessentials.item.StaffOfExtension
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
+import net.minecraft.world.IWorld
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
@@ -46,6 +47,16 @@ fun log(any: Any?) = log(any.toString())
 var ITEM_GROUP = BEItemGroup(MODID) { ItemStack(StaffOfExtension) }
 
 /**
- * The name of the mirror save data location.
+ * Gets the path of the world data directory saved by Building Essentials for the given [world].
  */
-const val MIRROR_SAVE_DATA_NAME = "${MODID}_MirrorData"
+fun dataPath(world: IWorld) = "saves/${world.worldInfo.worldName}/Building Essentials/"
+
+/**
+ * Gets the path of the mirrors data directory saved by Building Essentials for the given [world].
+ */
+fun mirrorsDirectoryPath(world: IWorld) = dataPath(world) + "mirrors/"
+
+/**
+ * Gets the path of the saved mirrors of the given [world] according to its dimension.
+ */
+fun mirrorsPath(world: IWorld) = mirrorsDirectoryPath(world) + "${world.dimension.type.registryName}.txt"

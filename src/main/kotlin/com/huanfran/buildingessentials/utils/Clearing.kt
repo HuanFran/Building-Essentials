@@ -21,7 +21,7 @@ object Clearing {
      * surface.
      */
     private fun clearSurfaceBlocks(world: World, p: Vec3i, radius: Int, depth: Int, checkBlockAbove: Boolean, remover: (Block) -> Boolean) : Int {
-        //The number of blocks of vegetation removed.
+        //The number of blocks removed.
         var count = 0
 
         //Using an action buffer to set and remove blocks allows undo and redo functionality.
@@ -71,7 +71,7 @@ object Clearing {
      */
     fun clearVegetation(world: World?, playerEyePos: Vec3i, radius: Int, depth: Int) =
         clearSurfaceBlocks(world!!, playerEyePos, radius, depth, true) { b -> b is BushBlock }.let {
-            Commands.writeToChat("Vegetation cleared. Count: $it")
+            Commands.writeToChat("$it piece(s) of vegetation cleared.")
         }
 
 
@@ -81,7 +81,7 @@ object Clearing {
      */
     fun clearSnow(world: World?, playerEyePos: Vec3i, radius: Int, depth: Int) =
         clearSurfaceBlocks(world!!, playerEyePos, radius, depth, false) { b -> b == Blocks.SNOW }.let {
-            Commands.writeToChat("Snow cleared. Count: $it")
+            Commands.writeToChat("$it piece(s) of surface snow cleared.")
         }
 
 

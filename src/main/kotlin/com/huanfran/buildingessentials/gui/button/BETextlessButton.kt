@@ -88,7 +88,7 @@ abstract class BETextlessButton(width: Int, height: Int, var tooltipText: String
 
 
     /**
-     * Tells Minecraft how to render the currently bound texture to the screen. This is set to [textureBlit] by default.
+     * Tells Minecraft how to render the currently bound texture to the screen. This is set to [fullTextureBlit] by default.
      */
     open fun doBlit() = fullTextureBlit()
 

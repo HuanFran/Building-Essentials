@@ -135,6 +135,55 @@ abstract class Renderer {
 
 
 
+    /**
+     * Note: This only works for straight lines. That is, [start] and [end] are the same on two axes and differ only by
+     * a single axis. That is the only use case for this function (for describing areas and volumes).
+     */
+    fun renderPipe(matrix: Matrix4f, start: Vector3, end: Vector3, width2: Double) {
+        val dif = end - start
+
+        val basisX = Vector3(1.0, 0.0, 0.0)
+        val basisY = Vector3(0.0, 1.0, 0.0)
+        val basisZ = Vector3(0.0, 0.0, 1.0)
+
+        var direction = Vector3()
+        var n0 = Vector3()
+        var n1 = Vector3()
+
+        when {
+            dif.x != 0.0 -> { direction = basisX; n0 = basisZ; n1 = basisY}
+            dif.y != 0.0 -> { direction = basisY; n0 = basisX; n1 = basisZ}
+            dif.z != 0.0 -> { direction = basisZ; n0 = basisX; n1 = basisY}
+        }
+
+        if(dif.x < 0.0 || dif.y < 0.0 || dif.z < 0.0) direction = - direction
+
+        val v0 = start - (n0 * width2) + (n1 * width2) - direction * width2
+        val v1 = start + (n0 * width2) + (n1 * width2) - direction * width2
+        val v2 = start + (n0 * width2) - (n1 * width2) - direction * width2
+        val v3 = start - (n0 * width2) - (n1 * width2) - direction * width2
+
+        val v4 = end - (n0 * width2) + (n1 * width2) + direction * width2
+        val v5 = end + (n0 * width2) + (n1 * width2) + direction * width2
+        val v6 = end + (n0 * width2) - (n1 * width2) + direction * width2
+        val v7 = end - (n0 * width2) - (n1 * width2) + direction * width2
+
+        /*
+        Sides
+         */
+
+        quad(matrix, v0, v3, v7, v4)
+
+        quad(matrix, v1, v2, v6, v5)
+
+
+        quad(matrix, v0, v1, v5, v4)
+
+        quad(matrix, v2, v3, v7, v6)
+    }
+
+
+
     /*
     Player info
      */

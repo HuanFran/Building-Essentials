@@ -2,6 +2,7 @@ package com.huanfran.buildingessentials.networking
 
 import com.huanfran.buildingessentials.graphics.maths.Vector3
 import com.huanfran.mirror.Mirrors
+import net.minecraft.client.Minecraft
 import net.minecraft.network.PacketBuffer
 import net.minecraftforge.fml.network.NetworkDirection
 import net.minecraftforge.fml.network.NetworkEvent
@@ -34,14 +35,16 @@ class MirrorRemovalPacket(val v0: Vector3, val v1: Vector3) {
 
         val handler: (MirrorRemovalPacket, Supplier<NetworkEvent.Context>) -> Unit = { p, c ->
             c.get().enqueueWork {
-
                 val isRemote = c.get().direction == NetworkDirection.PLAY_TO_CLIENT
 
-                Mirrors.handleMirrorRemoval(p.v0, p.v1, isRemote)
+                //Handle either on the client-side of the server-side.
+                if(isRemote)
+                    Mirrors.handleMirrorRemoval(Minecraft.getInstance().player!!.world, p.v0, p.v1)
+                else
+                    Mirrors.handleMirrorRemoval(c.get().sender!!.world, p.v0, p.v1)
 
-                if(!isRemote) {
-                    BEPacketHandler.HANDLER.sendTo(p, c.get().networkManager, NetworkDirection.PLAY_TO_CLIENT)
-                }
+                //Tell all clients that a mirror has been removed.
+                if(!isRemote) BEPacketHandler.HANDLER.sendTo(p, c.get().networkManager, NetworkDirection.PLAY_TO_CLIENT)
             }
 
             c.get().packetHandled = true

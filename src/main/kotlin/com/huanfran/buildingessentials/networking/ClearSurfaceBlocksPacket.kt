@@ -1,7 +1,7 @@
 package com.huanfran.buildingessentials.networking
 
 import com.huanfran.buildingessentials.utils.Clearing
-import com.huanfran.buildingessentials.utils.internal.serverWorld
+import com.huanfran.buildingessentials.utils.internal.integratedServerWorld
 import net.minecraft.network.PacketBuffer
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.dimension.DimensionType
@@ -38,7 +38,7 @@ class ClearSurfaceBlocksPacket(val clearType: Int, val playerEyePos: Vec3i, val 
 
 
         val handler: (ClearSurfaceBlocksPacket, Supplier<NetworkEvent.Context>) -> Unit = { p, c ->
-            val world = serverWorld(DimensionType.OVERWORLD)
+            val world = integratedServerWorld(DimensionType.OVERWORLD)
 
             c.get().enqueueWork {
                 when(p.clearType) {

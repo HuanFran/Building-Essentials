@@ -3,6 +3,7 @@ package com.huanfran.buildingessentials.networking
 import com.huanfran.buildingessentials.graphics.maths.Vector3
 import com.huanfran.mirror.MirrorController
 import com.huanfran.mirror.Mirrors
+import net.minecraft.client.Minecraft
 import net.minecraft.network.PacketBuffer
 import net.minecraftforge.fml.network.NetworkDirection
 import net.minecraftforge.fml.network.NetworkEvent
@@ -46,11 +47,15 @@ class MirrorCreationPacket(val v0: Vector3, val v1: Vector3, val width2: Double,
                 val controller = MirrorController(p.v0, p.v1, p.width2, p.length2, p.height2)
 
                 val isRemote = c.get().direction == NetworkDirection.PLAY_TO_CLIENT
-                Mirrors.handleMirrorCreation(controller, isRemote)
 
-                if(!isRemote) {
-                    BEPacketHandler.HANDLER.sendTo(p, c.get().networkManager, NetworkDirection.PLAY_TO_CLIENT)
-                }
+                //Handle either on the server or the client-side.
+                if(isRemote)
+                    Mirrors.handleMirrorCreation(Minecraft.getInstance().player!!.world, controller)
+                else
+                    Mirrors.handleMirrorCreation(c.get().sender!!.world, controller)
+
+                //Tell all clients that a mirror has been created.
+                if(!isRemote) BEPacketHandler.HANDLER.sendTo(p, c.get().networkManager, NetworkDirection.PLAY_TO_CLIENT)
             }
 
             c.get().packetHandled = true

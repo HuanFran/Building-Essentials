@@ -200,7 +200,7 @@ class MirrorController(val v0: Vector3,
         if(mirroredPos == pos) return
 
         //Prevent (or allow, based on configuration) mirrored blocks from destroying already-present blocks. Slabs are
-        //a special case as placing a top-slab requries a bottom-slab to be present.
+        //a special case as placing a top-slab requires a bottom-slab to be present.
         if(!Mirrors.mirrorReplacingEnabled && !isReplaceable(buffer.world, mirroredPos)
                 && mirroredState.block !is SlabBlock && state.block !is SlabBlock) return
 

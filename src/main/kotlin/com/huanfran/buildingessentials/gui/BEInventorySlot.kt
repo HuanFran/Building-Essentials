@@ -20,7 +20,7 @@ class BEInventorySlot(var itemStack: ItemStack? = null) : BETextlessButton(20, 2
             res = resFromSelected(value)
             if(value) itemStack?.let { Minecraft.getInstance().player?.setHeldItem(Hand.MAIN_HAND, it) }
 
-            Minecraft.getInstance().player?.inventory?.currentItem
+            //Minecraft.getInstance().player?.inventory?.currentItem
         }
 
 

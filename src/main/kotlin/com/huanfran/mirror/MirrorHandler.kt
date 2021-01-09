@@ -20,7 +20,7 @@ import net.minecraft.world.IWorld
  * handler represents a world that has already been created. If not, the list can be left blank. It represents all
  * active [MirrorController]s that have been created in a world.
  */
-class MirrorHandler(val controllers: ArrayList<MirrorController> = ArrayList()) {
+class MirrorHandler(val dimension: String, val controllers: ArrayList<MirrorController> = ArrayList()) {
 
 
     /**
@@ -99,7 +99,7 @@ class MirrorHandler(val controllers: ArrayList<MirrorController> = ArrayList()) 
 
 
     /**
-     * Strictly client-side
+     * Client-side only.
      */
     fun lookingAt(player: PlayerEntity, playerPos: Vector3) : MirrorController? {
         var closestController: MirrorController? = null
